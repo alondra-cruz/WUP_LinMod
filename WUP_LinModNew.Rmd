@@ -88,13 +88,14 @@ This graph shows that as grip strength goes up, the simulation score goes up as 
 ```{r}
 cor(SIMS~GRIP,data=data)
 ```
-The correlation is 0.63 which shows that arm strength is related to sim score.
+The correlation is 0.63 which shows that girp strength is related to sim score.
 
 ### Inferential  (Build model.2)
 ```{r}
 model.2 <- lm(SIMS~GRIP,data=data)
 summary.lm(model.2)
 ```
+Both the intercept and the coefficent of grip strength are significantly different from zero.
 
 ## Prediction Interval
 
@@ -102,19 +103,34 @@ summary.lm(model.2)
 newdata= data.frame(ARM=88, GRIP=94)
 predict(model.2, newdata, interval="predict")
 ```
-
-
+The prediction interval is from -3.1 to 2.0 for the sim score. 
 
 ## Model 3 SIM~ARM+GRIP
 
-### Numerical results (cor)
+### Numerical Results
 
-`
-  
-### Inferential  (Build 2-dimentional model.3)
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
 
-#### predict model.3 at target point
-  
+The correlation is 0.73 which shows that arm and grip strength is related to sim score. 
+
+### Infrential Results
+
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+```
+Both the intercept and the coefficent of grip and arm strength are significantly different from zero.
+
+
+### Prediction Interval
+```{r}
+newdata= data.frame(ARM=88, GRIP=94)
+predict(model.3, newdata, interval="predict")
+```
+The prediction interval is from -2.1 to 2.4 for SIM score. 
+
 
 ## Comparing nested models ANOVA Test
 
@@ -122,4 +138,22 @@ predict(model.2, newdata, interval="predict")
 ### Model.2 vs Model.3
 
 ## Informally compare Model.1 with model.2
+
+```{r}
+anova(model.3,model.1)
+```
+The p-value is .00000499 so I reject the null hypothesis. Model 1 is better than model 2 because the rss for model 1 is smaller.
+
+```{r}
+anova(model.3,model.2)
+```
+Model 3 is smaller than model 2 because the rss for model 3 is smaller
+
+
+# Discussion and Conclusion
+
+Out of the three models, model 3 is the best because it has a smaller rss. 
+
+
+
 
